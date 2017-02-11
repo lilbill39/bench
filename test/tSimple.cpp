@@ -1,8 +1,8 @@
 #include "ilp.hpp"
 #include <cassert>
+#include "gtest/gtest.h"
 
-int main() {
-  // assert(foo() == 1);
-
-   return 0;
+TEST(Simple, First)
+{
+  ASSERT_EQ(foo(), 1);
 }
