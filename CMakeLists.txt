@@ -56,13 +56,12 @@ target_link_libraries(ilp_bench benchmark -pthread ilp)
 
 # clang-tidy target
 set(ALL_SRC ${SRC} ${TEST_SRC} ${BENCHMARK_SRC})
-# find_program(TIDY clang-tidy)
-# add_executable(clang-tidy IMPORTED)
-# set_property(TARGET clang-tidy PROPERTY IMPORTED_LOCATION ${TIDY})
 add_custom_target(tidy)
 foreach(SrcFile ${ALL_SRC})
   add_custom_command(TARGET tidy COMMAND clang-tidy-3.9 -p ${CMAKE_BINARY_DIR} -checks='-*,llvm-namespace-comment' -fix -fix-errors -header-filter='.*${PROJECT_SOURCE_DIR}/include.*' ${SrcFile})
 endforeach()
 
+# clang-format target
 add_custom_target(format)
-add_custom_command(TARGET format COMMAND clang-format-3.9 -i ${ALL_SRC})
+file(GLOB_RECURSE ALL_HDR "include" "*.hpp")
+add_custom_command(TARGET format COMMAND clang-format-3.9 -i ${ALL_SRC} ${ALL_HDR})
