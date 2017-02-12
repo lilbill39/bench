@@ -53,3 +53,10 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/google-benchmark)
 file(GLOB BENCHMARK_SRC "benchmark/*.cpp")
 add_executable(ilp_bench ${BENCHMARK_SRC})
 target_link_libraries(ilp_bench benchmark -pthread ilp)
+
+# clang-tidy target
+set(ALL_SRC ${SRC} ${TEST_SRC} ${BENCHMARK_SRC})
+# find_program(TIDY clang-tidy)
+# add_executable(clang-tidy IMPORTED)
+# set_property(TARGET clang-tidy PROPERTY IMPORTED_LOCATION ${TIDY})
+add_custom_target(tidy COMMAND clang-tidy-3.9 -p ${CMAKE_BINARY_DIR} -checks='-*,llvm-namespace-comment' -fix -fix-errors -header-filter='.*${PROJECT_SOURCE_DIR}/include.*' ${ALL_SRC})
