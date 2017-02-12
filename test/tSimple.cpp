@@ -9,6 +9,6 @@ TEST(Simple, Ilp) {
   const auto N = 1UL;
   for (auto k = 0UL; k < N; ++k) {
     auto res = ilp(300000000UL);
-    ASSERT_GT(res, 0);
+    ASSERT_EQ(res, 3921015525972184403UL);
   }
 }
