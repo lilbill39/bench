@@ -19,6 +19,6 @@ target_include_directories(ilp_test PRIVATE "${PROJECT_SOURCE_DIR}/test/googlete
 target_compile_options(ilp_test PUBLIC "-pthread")
 set_target_properties(ilp_test PROPERTIES LINK_FLAGS "-pthread ${LINK_FLAGS}")
 
-add_definitions("-Wall -Werror -std=c++11")
+add_definitions("-O2 -Wall -Werror -std=c++11")
 
 add_custom_target(check COMMAND ilp_test)
