@@ -1,5 +1,6 @@
 language: cpp
-
+dist: trusty
+sudo: required
 script:
     - mkdir build
     - cd build
