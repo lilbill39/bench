@@ -49,6 +49,7 @@ target_link_libraries(ilp_test ilp gtest gtest_main)
 add_custom_target(check COMMAND ilp_test)
 
 # Add benchmark exe
+add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/google-benchmark)
 file(GLOB BENCHMARK_SRC "benchmark/*.cpp")
 add_executable(ilp_bench ${BENCHMARK_SRC})
-target_link_libraries(ilp_bench -lbenchmark -pthread ilp)
+target_link_libraries(ilp_bench benchmark -pthread ilp)
