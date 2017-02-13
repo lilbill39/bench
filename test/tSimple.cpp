@@ -14,9 +14,17 @@ TEST(Simple, Ilp) {
 }
 
 TEST(Simple, Sum) {
+  auto u1 = 100ULL, u2 = 21ULL;
+  // Try rvalues
   ASSERT_EQ(ILP::sum(1), 1);
   ASSERT_EQ(ILP::sum(1, 2), 3);
   ASSERT_EQ(ILP::sum(1, 2, 3), 6);
 
+  // Try lvalues
+  ASSERT_EQ(ILP::sum(u1), u1);
+  ASSERT_EQ(ILP::sum(u1, u2), u1 + u2);
+  ASSERT_EQ(ILP::sum(u1, u2, u2), u1 + u2 + u2);
+
+  // Mixed types
   ASSERT_EQ(ILP::sum(1.0, 2, 3UL), 6.0);
 }

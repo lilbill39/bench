@@ -6,6 +6,7 @@ int foo();
 size_t ilp(size_t x);
 
 namespace {
+// Traits class to resolve sum type using decltype
 template <typename... Args>
 struct sum_traits;
 
@@ -14,8 +15,20 @@ struct sum_traits<T> {
   typedef T type;
 };
 
+// Need to drop lvalue reference
+template <typename T>
+struct sum_traits<T &> {
+  typedef T type;
+};
+
 template <typename T, typename... Args>
 struct sum_traits<T, Args...> {
+  typedef decltype(T() + typename sum_traits<Args...>::type()) type;
+};
+
+// Need to drop lvalue reference
+template <typename T, typename... Args>
+struct sum_traits<T &, Args...> {
   typedef decltype(T() + typename sum_traits<Args...>::type()) type;
 };
 } // namespace
