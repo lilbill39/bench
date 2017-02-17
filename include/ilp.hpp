@@ -42,6 +42,9 @@ typename sum_traits<T, Args...>::type sum(T &&a, Args &&... args) {
   return a + ILP::sum(std::forward<Args>(args)...);
 }
 
+/// Small wrapper around a callable. Used to locally store a callable.
+///
+/// See make_small_function for simpler construction
 template <typename Callable>
 class small_function {
  private:
@@ -57,6 +60,7 @@ class small_function {
   }
 };
 
+/// Helper for small_function. Uses type deduction to construct easily.
 template <typename Callable>
 small_function<Callable> make_small_function(Callable aF) {
   return small_function<Callable>(aF);
