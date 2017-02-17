@@ -3,7 +3,7 @@
 
 namespace {
 double localNullary() { return 1.2; };
-}
+} // namespace
 
 TEST(small_function, nullary) {
   using namespace ILP;
