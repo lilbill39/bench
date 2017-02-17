@@ -2,8 +2,7 @@
 #include "gtest/gtest.h"
 
 namespace {
-  double localNullary() { return 1.2; };
-
+double localNullary() { return 1.2; };
 }
 
 TEST(small_function, nullary) {
@@ -17,7 +16,7 @@ TEST(small_function, nullary) {
   // Fcn pointer
   auto fp = make_small_function(localNullary);
   ASSERT_EQ(fp(), localNullary());
-  
+
   // Void
   int n = 1;
   auto fv = make_small_function([&n]() { ++n; });
