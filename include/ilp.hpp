@@ -41,4 +41,23 @@ template <typename T, typename... Args>
 typename sum_traits<T, Args...>::type sum(T &&a, Args &&... args) {
   return a + ILP::sum(std::forward<Args>(args)...);
 }
+
+template <typename Callable>
+class small_function {
+ private:
+  Callable F;
+
+ public:
+  small_function(Callable aF) : F(aF) {}
+  template <typename... Args>
+  auto operator()(Args &&... args) -> decltype(this->F(std::forward(args)...)) {
+    return F(std::forward(args)...);
+  }
+};
+
+template <typename Callable>
+small_function<Callable> make_small_function(Callable aF) {
+  return small_function<Callable>(aF);
+}
+
 } // namespace ILP
