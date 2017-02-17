@@ -49,9 +49,11 @@ class small_function {
 
  public:
   small_function(Callable aF) : F(aF) {}
+
   template <typename... Args>
-  auto operator()(Args &&... args) -> decltype(this->F(std::forward(args)...)) {
-    return F(std::forward(args)...);
+  auto operator()(Args &&... args)
+      -> decltype(this->F(std::forward<Args>(args)...)) {
+    return F(std::forward<Args>(args)...);
   }
 };
 
