@@ -67,7 +67,7 @@ TEST(small_function, unary_copies) {
   ASSERT_EQ(cc.fNmoves, 0U);
   auto f = make_small_function(
       [](copy_counter c) { return std::make_pair(c.fNcopies, c.fNmoves); });
-  std::tie(ncopies,nmoves) = f(cc);
+  std::tie(ncopies, nmoves) = f(cc);
   ASSERT_EQ(ncopies, 1U);
   ASSERT_EQ(nmoves, 0U);
 
@@ -76,8 +76,8 @@ TEST(small_function, unary_copies) {
   ASSERT_EQ(ccr.fNcopies, 0U);
   ASSERT_EQ(ccr.fNmoves, 0U);
   auto fr = make_small_function(
-                               [](copy_counter &c) { return std::make_pair(c.fNcopies, c.fNmoves); });
-  std::tie(ncopies,nmoves) = fr(ccr);
+      [](copy_counter &c) { return std::make_pair(c.fNcopies, c.fNmoves); });
+  std::tie(ncopies, nmoves) = fr(ccr);
   ASSERT_EQ(ncopies, 0U);
   ASSERT_EQ(nmoves, 0U);
 
@@ -90,9 +90,9 @@ TEST(small_function, unary_copies) {
   ASSERT_EQ(cmoved.fNcopies, 0U);
   ASSERT_EQ(cmoved.fNmoves, 1U);
   auto frr = make_small_function(
-                               [](copy_counter &&c) { return std::make_pair(c.fNcopies, c.fNmoves); });
+      [](copy_counter &&c) { return std::make_pair(c.fNcopies, c.fNmoves); });
   auto &ccrr_ref = ccrr;
-  std::tie(ncopies,nmoves) = frr(std::move(ccrr));
+  std::tie(ncopies, nmoves) = frr(std::move(ccrr));
   ASSERT_EQ(ccrr.fNcopies, 0U);
   ASSERT_EQ(ccrr.fNmoves, 0U);
   ASSERT_EQ(ccrr_ref.fNcopies, 0U);
