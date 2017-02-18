@@ -55,7 +55,7 @@ struct copy_counter {
   size_t fNcopies;
   size_t fNmoves;
 };
-}
+} // namespace
 
 TEST(small_function, unary_copies) {
   using namespace ILP;
