@@ -37,7 +37,10 @@ file(GLOB SRC "src/*.cpp")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_library(ilp ${SRC})
-add_definitions("-O2 -Wall -Werror -std=c++11 -fno-omit-frame-pointer")
+set(COMMON_FLAGS "-Wall -Werror -std=c++11 -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS}")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_FLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_FLAGS} -O2")
 
 # Add tests
 file(GLOB TEST_SRC "test/*.cpp")
