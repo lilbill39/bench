@@ -1,6 +1,8 @@
 #include "ilp.hpp"
+#include "rymap.hpp"
 #include <benchmark/benchmark.h>
 #include <vector>
+#include <unordered_map>
 void bm_ilp(benchmark::State &aState) {
   while (aState.KeepRunning()) {
     auto res = ILP::ilp(3000UL);
@@ -56,5 +58,76 @@ void bm_vector(benchmark::State &aState) {
 }
 
 BENCHMARK(bm_vector);
+
+#define NUM 10000U;
+void bm_rymap_insert(benchmark::State &aState) {
+  const size_t N = NUM;
+  ry::map<size_t,size_t> m;
+
+  while (aState.KeepRunning()) {
+    for (size_t i = 0U; i < N; ++i) {
+      m.insert(i, i + 1);
+      benchmark::DoNotOptimize(m);
+      benchmark::ClobberMemory();
+    }
+  }
+}
+
+BENCHMARK(bm_rymap_insert);
+
+void bm_unordered_map_insert(benchmark::State &aState) {
+  const size_t N = NUM;
+  std::unordered_map<size_t,size_t> m;
+
+  while (aState.KeepRunning()) {
+    for (size_t i = 0U; i < N; ++i) {
+      m.insert(std::make_pair(i, i + 1));
+      benchmark::DoNotOptimize(m);
+      benchmark::ClobberMemory();
+    }
+  }
+}
+
+BENCHMARK(bm_unordered_map_insert);
+
+void bm_rymap_lookup(benchmark::State &aState) {
+  const size_t N = NUM;
+  ry::map<size_t,size_t> m;
+
+  for (size_t i = 0U; i < N; ++i) {
+    m.insert(2*i, i + 1);
+    benchmark::DoNotOptimize(m);
+    benchmark::ClobberMemory();
+  }
+  while (aState.KeepRunning()) {
+    for (size_t i = 0U; i < N; ++i) {
+      auto v = m.lookup(2*i);
+      benchmark::DoNotOptimize(v);
+      benchmark::ClobberMemory();
+    }
+  }
+}
+
+BENCHMARK(bm_rymap_lookup);
+
+void bm_unordered_map_lookup(benchmark::State &aState) {
+  const size_t N = NUM;
+  std::unordered_map<size_t,size_t> m;
+
+  for (size_t i = 0U; i < N; ++i) {
+    m.insert(std::make_pair(2*i, i+1));
+    benchmark::DoNotOptimize(m);
+    benchmark::ClobberMemory();
+  }
+  while (aState.KeepRunning()) {
+    for (size_t i = 0U; i < N; ++i) {
+      auto v = m.find(2*i);
+      benchmark::DoNotOptimize(v);
+      benchmark::ClobberMemory();
+    }
+  }
+}
+
+BENCHMARK(bm_unordered_map_lookup);
 
 BENCHMARK_MAIN();
