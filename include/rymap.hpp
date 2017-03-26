@@ -38,7 +38,7 @@ class map {
       h = h % sz;
     }
     auto v = vals.begin() + h;
-    auto matcher = [&key](const typename ValsT::value_type &entry) {
+    auto matcher = [&key](typename ValsT::const_reference entry) {
       return entry.isNull || entry.key == key;
     };
 
@@ -54,8 +54,8 @@ class map {
   map() = default;
 
   void insert(KeyT key, ValT val) {
-    if (vals.capacity() == 0) {
-      vals.resize(2);
+    if (vals.empty()) {
+      vals.resize(std::max(2UL,vals.capacity()));
     }
     auto it = findElem(key);
     if (it != vals.end()) {
@@ -69,7 +69,7 @@ class map {
           ValsT oldVals(std::move(vals));
           vals.resize(2 * oldVals.size());
           std::for_each(oldVals.begin(), oldVals.end(),
-                        [this](const typename ValsT::value_type &entry) {
+                        [this](typename ValsT::const_reference entry) {
                           if (!entry.isNull) {
                             insert(entry.key, entry.val);
                           }
