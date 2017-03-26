@@ -56,6 +56,7 @@ class map {
   void insert(KeyT key, ValT val) {
     auto it = findElem(key);
     if (it == vals.end()) {
+      // TODO: Is this possible?
       return;
     }
     bool checkAlloc = it->isNull;
