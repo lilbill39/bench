@@ -94,11 +94,11 @@ void bm_rymap_lookup(benchmark::State &aState) {
   const size_t N = NUM;
   ry::map<size_t,size_t> m;
 
-  for (size_t i = 0U; i < N; ++i) {
-    m.insert(2*i, i + 1);
-    benchmark::DoNotOptimize(m);
-    benchmark::ClobberMemory();
-  }
+  // for (size_t i = 0U; i < 10U; ++i) {
+  //   m.insert(2*i, i + 1);
+  //   benchmark::DoNotOptimize(m);
+  //   benchmark::ClobberMemory();
+  // }
   while (aState.KeepRunning()) {
     for (size_t i = 0U; i < N; ++i) {
       auto v = m.lookup(2*i);
@@ -114,11 +114,11 @@ void bm_unordered_map_lookup(benchmark::State &aState) {
   const size_t N = NUM;
   std::unordered_map<size_t,size_t> m;
 
-  for (size_t i = 0U; i < N; ++i) {
-    m.insert(std::make_pair(2*i, i+1));
-    benchmark::DoNotOptimize(m);
-    benchmark::ClobberMemory();
-  }
+  // for (size_t i = 0U; i < 10U; ++i) {
+  //   m.insert(std::make_pair(2*i, i+1));
+  //   benchmark::DoNotOptimize(m);
+  //   benchmark::ClobberMemory();
+  // }
   while (aState.KeepRunning()) {
     for (size_t i = 0U; i < N; ++i) {
       auto v = m.find(2*i);

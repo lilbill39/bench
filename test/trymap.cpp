@@ -4,6 +4,9 @@
 #include "gtest/gtest.h"
 TEST(rymap, construct) {
   ry::map<int, int> m;
+  // Empty lookup should be false
+  ASSERT_FALSE(m.lookup(12));
+  
   m.insert(1, 12);
 
   auto it = m.lookup(1);

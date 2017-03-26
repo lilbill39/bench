@@ -28,8 +28,8 @@ class map {
   using iterator = typename ValsT::iterator;
   using const_iterator = typename ValsT::const_iterator;
 
-  ValsT vals;
   size_t nElem;
+  ValsT vals;
 
   iterator findElem(KeyT key) {
     auto sz = vals.size();
@@ -51,7 +51,7 @@ class map {
   }
 
  public:
-  map() : vals(3), nElem(0) {}
+  map() : nElem(0), vals(3) {}
 
   void insert(KeyT key, ValT val) {
     auto it = findElem(key);
@@ -79,6 +79,9 @@ class map {
 
   detail::MapEntry<KeyT, ValT> lookup(KeyT key) {
     auto it = findElem(key);
+    if (it == vals.end()) {
+      return detail::MapEntry<KeyT, ValT>();
+    }
     return *it;
   }
 };
