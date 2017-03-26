@@ -77,10 +77,11 @@ class map {
     }
   }
 
-  detail::MapEntry<KeyT, ValT> lookup(KeyT key) {
+  const detail::MapEntry<KeyT, ValT> &lookup(KeyT key) {
+    static detail::MapEntry<KeyT, ValT> bogus;
     auto it = findElem(key);
     if (it == vals.end()) {
-      return detail::MapEntry<KeyT, ValT>();
+      return bogus;
     }
     return *it;
   }

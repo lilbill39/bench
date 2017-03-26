@@ -10,6 +10,7 @@ TEST(rymap, construct) {
   m.insert(1, 12);
 
   auto it = m.lookup(1);
+  it.key = 1;
   ASSERT_TRUE(it);
   ASSERT_EQ(it.key, 1);
   ASSERT_EQ(it.val, 12);
