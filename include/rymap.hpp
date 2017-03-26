@@ -32,9 +32,13 @@ class map {
   size_t nElem;
 
   iterator findElem(KeyT key) {
-    auto h = hash(key) % vals.size();
+    auto sz = vals.size();
+    auto h = hash(key);
+    if (h >= sz) {
+      h = h % sz;
+    }
     auto v = vals.begin() + h;
-    auto matcher = [&key](const detail::MapEntry<KeyT, ValT> &entry) {
+    auto matcher = [&key](const typename ValsT::value_type &entry) {
       return entry.isNull || entry.key == key;
     };
 
@@ -65,7 +69,7 @@ class map {
           ValsT oldVals(std::move(vals));
           vals.resize(2 * oldVals.size());
           std::for_each(oldVals.begin(), oldVals.end(),
-                        [this](const detail::MapEntry<KeyT, ValT> &entry) {
+                        [this](const typename ValsT::value_type &entry) {
                           if (!entry.isNull) {
                             insert(entry.key, entry.val);
                           }
