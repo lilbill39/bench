@@ -55,25 +55,25 @@ class map {
 
   void insert(KeyT key, ValT val) {
     auto it = findElem(key);
-    if (it != vals.end()) {
-      bool checkAlloc = it->isNull;
-      *it = detail::MapEntry<KeyT, ValT>(key, val);
-      if (checkAlloc) {
-        ++nElem;
-        // Realloc and rehash
-        if (4 * nElem > 3 * vals.size()) {
-          nElem = 0;
-          ValsT oldVals(std::move(vals));
-          vals.resize(2 * oldVals.size());
-          std::for_each(oldVals.begin(), oldVals.end(),
-                        [this](typename ValsT::const_reference entry) {
-                          if (!entry.isNull) {
-                            insert(entry.key, entry.val);
-                          }
-                        });
-        }
-      }
+    if (it == vals.end()) {
       return;
+    }
+    bool checkAlloc = it->isNull;
+    *it = detail::MapEntry<KeyT, ValT>(key, val);
+    if (checkAlloc) {
+      ++nElem;
+      // Realloc and rehash
+      if (4 * nElem > 3 * vals.size()) {
+        nElem = 0;
+        ValsT oldVals(std::move(vals));
+        vals.resize(2 * oldVals.size());
+        std::for_each(oldVals.begin(), oldVals.end(),
+                      [this](typename ValsT::const_reference entry) {
+                        if (!entry.isNull) {
+                          insert(entry.key, entry.val);
+                        }
+                      });
+      }
     }
   }
 
