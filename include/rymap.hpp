@@ -51,12 +51,9 @@ class map {
   }
 
  public:
-  map() = default;
+  map() : vals(3), nElem(0) {}
 
   void insert(KeyT key, ValT val) {
-    if (vals.empty()) {
-      vals.resize(std::max(2UL,vals.capacity()));
-    }
     auto it = findElem(key);
     if (it != vals.end()) {
       bool checkAlloc = it->isNull;
