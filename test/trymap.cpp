@@ -1,4 +1,6 @@
 #include "rymap.hpp"
+// Check double inclusion
+#include "rymap.hpp"
 #include "gtest/gtest.h"
 TEST(rymap, construct) {
   ry::map<int, int> m;
