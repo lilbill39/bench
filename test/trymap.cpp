@@ -30,6 +30,13 @@ TEST(rymap, construct) {
   ASSERT_TRUE(it1again);
   ASSERT_EQ(it1again.key, 1);
   ASSERT_EQ(it1again.val, 12);
+
+  std::vector<int> vals({1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+  std::for_each(vals.begin(), vals.end(), [&m](int i) { m.insert(2*i, i + 1); });
+  std::for_each(vals.begin(), vals.end(), [&m](int i) {
+    ASSERT_TRUE(m.lookup(2*i));
+    ASSERT_FALSE(m.lookup(-i));
+  });
 }
 
 TEST(rymap, stringKeys)
