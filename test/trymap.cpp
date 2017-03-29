@@ -31,3 +31,36 @@ TEST(rymap, construct) {
   ASSERT_EQ(it1again.key, 1);
   ASSERT_EQ(it1again.val, 12);
 }
+
+TEST(rymap, stringKeys)
+{
+  ry::map<std::string, int> m;
+  ASSERT_FALSE(m.lookup("foobar"));
+
+  std::vector<std::pair<std::string,int>> vals = {{"hello",0}, {"why",1}, {"",2}, {"again",4}};
+  ptrdiff_t idx(0);
+
+  std::for_each(vals.begin(), vals.end(),
+                [&vals, &m, &idx](const std::pair<std::string, int> &val) {
+                  m.insert(val.first, val.second);
+                  std::for_each(vals.begin(), vals.begin() + idx + 1,
+                                [&m](const std::pair<std::string, int> &v) {
+                                  auto it = m.lookup(v.first);
+                                  ASSERT_TRUE(it);
+                                  ASSERT_EQ(it.key, v.first);
+                                  ASSERT_EQ(it.val, v.second);
+                                });
+                  std::for_each(vals.begin() + idx + 1, vals.end(),
+                                [&m](const std::pair<std::string, int> &v) {
+                                  auto it = m.lookup(v.first);
+                                  ASSERT_FALSE(it);
+                                });
+                  ++idx;
+                });
+
+  m.insert("why",3);
+  auto it = m.lookup("why");
+  ASSERT_TRUE(it);
+  ASSERT_EQ(it.key, "why");
+  ASSERT_EQ(it.val, 3);
+}

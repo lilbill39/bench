@@ -97,4 +97,9 @@ template <>
 hashT hash(size_t key) {
   return std::hash<size_t>()(key);
 }
+
+template <>
+hashT hash(std::string s) {
+  return std::hash<std::string>()(s);
+}
 }
