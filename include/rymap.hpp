@@ -31,7 +31,7 @@ class map {
   size_t nElem;
   ValsT vals;
 
-  iterator findElem(KeyT key) {
+  iterator findElem(const KeyT &key) {
     auto sz = vals.size();
     auto h = hash(key);
     if (h >= sz) {
@@ -53,7 +53,7 @@ class map {
  public:
   map() : nElem(0), vals(3) {}
 
-  void insert(KeyT key, ValT val) {
+  void insert(const KeyT &key, const ValT &val) {
     auto it = findElem(key);
     if (it == vals.end()) {
       // TODO: Is this possible?
