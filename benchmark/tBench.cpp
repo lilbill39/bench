@@ -117,6 +117,60 @@ void bm_unordered_map_insert_string(benchmark::State &aState) {
 
 BENCHMARK(bm_unordered_map_insert_string);
 
+#define NUM 10000U;
+void bm_rymap_lookup_string(benchmark::State &aState) {
+  const size_t N = NUM;
+  ry::map<std::string,ptrdiff_t> m;
+  std::vector<std::string> strings(N);
+  ptrdiff_t idx(0);
+  std::generate(strings.begin(), strings.end(), [&idx]() {
+      return std::to_string(idx++);
+  });
+  idx = 0;
+  for (auto s : strings) {
+    m.insert(s, idx++);
+    benchmark::DoNotOptimize(m);
+    benchmark::ClobberMemory();
+  }
+  while (aState.KeepRunning()) {
+    for (auto s : strings) {
+      auto it = m.lookup(s);
+      benchmark::DoNotOptimize(it);
+      benchmark::ClobberMemory();
+    }
+  }
+
+}
+
+BENCHMARK(bm_rymap_lookup_string);
+
+#define NUM 10000U;
+void bm_unordered_map_lookup_string(benchmark::State &aState) {
+  const size_t N = NUM;
+  std::unordered_map<std::string,ptrdiff_t> m;
+  std::vector<std::string> strings(N);
+  ptrdiff_t idx(0);
+  std::generate(strings.begin(), strings.end(), [&idx]() {
+      return std::to_string(idx++);
+  });
+  idx = 0;
+  for (auto s : strings) {
+    m.insert({s, idx++});
+    benchmark::DoNotOptimize(m);
+    benchmark::ClobberMemory();
+  }
+
+  while (aState.KeepRunning()) {
+    for (auto s : strings) {
+      auto it = m.find(s);
+      benchmark::DoNotOptimize(it);
+      benchmark::ClobberMemory();
+    }
+  }
+}
+
+BENCHMARK(bm_unordered_map_lookup_string);
+
 void bm_unordered_map_insert(benchmark::State &aState) {
   const size_t N = NUM;
   std::unordered_map<size_t,size_t> m;
